@@ -1,0 +1,274 @@
+-- tmp.ComponentData definition
+
+CREATE TABLE `ComponentData` (
+  `functionName` varchar(255) DEFAULT NULL,
+  `Attribute` varchar(255) DEFAULT NULL,
+  `AttributeValue` int DEFAULT NULL,
+  `TotalValue` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- tmp.actual_data definition
+
+CREATE TABLE `actual_data` (
+  `EntryID` int NOT NULL AUTO_INCREMENT,
+  `DeviceUID` varchar(255) DEFAULT NULL,
+  `Temperature` float DEFAULT NULL,
+  `TemperatureR` varchar(255) DEFAULT NULL,
+  `TemperatureY` varchar(255) DEFAULT NULL,
+  `TemperatureB` varchar(255) DEFAULT NULL,
+  `Humidity` float DEFAULT NULL,
+  `flowRate` float DEFAULT NULL,
+  `totalVolume` float DEFAULT NULL,
+  `TimeStamp` timestamp NOT NULL,
+  `ip_address` varchar(255) DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`EntryID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2083313 DEFAULT CHARSET=latin1;
+
+
+-- tmp.ceat_alert definition
+
+CREATE TABLE `ceat_alert` (
+  `device_uid` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mail` int DEFAULT '0',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'not'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- tmp.company_info definition
+
+CREATE TABLE `company_info` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `company_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `total_users` int NOT NULL,
+  `active_users` int NOT NULL,
+  `inactive_users` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4113372 DEFAULT CHARSET=latin1;
+
+
+-- tmp.dev_info definition
+
+CREATE TABLE `dev_info` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `all_devices` int NOT NULL,
+  `active_devices` int NOT NULL,
+  `inactive_devices` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=383285 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- tmp.device_info definition
+
+CREATE TABLE `device_info` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `deviceuid` varchar(255) NOT NULL,
+  `ip_address` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `timestamp` timestamp NOT NULL,
+  `company_name` varchar(100) DEFAULT NULL,
+  `company_location` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2060454 DEFAULT CHARSET=latin1;
+
+
+-- tmp.info_twi definition
+
+CREATE TABLE `info_twi` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_time` datetime DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `recipient` varchar(255) DEFAULT NULL,
+  `message_id` varchar(255) DEFAULT NULL,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  CONSTRAINT `check_isRead` CHECK ((`isRead` in (0,1)))
+) ENGINE=InnoDB AUTO_INCREMENT=839 DEFAULT CHARSET=latin1;
+
+
+-- tmp.info_twi_log definition
+
+CREATE TABLE `info_twi_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `timestamp` datetime NOT NULL,
+  `request_count` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8020 DEFAULT CHARSET=latin1;
+
+
+-- tmp.jsFunction definition
+
+CREATE TABLE `jsFunction` (
+  `Date` varchar(255) DEFAULT NULL,
+  `JsfunctionValue` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- tmp.log_count_table definition
+
+CREATE TABLE `log_count_table` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `timestamp` datetime NOT NULL,
+  `request_count` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7987 DEFAULT CHARSET=latin1;
+
+
+-- tmp.log_table definition
+
+CREATE TABLE `log_table` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `timestamp` datetime NOT NULL,
+  `request_count` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8000 DEFAULT CHARSET=latin1;
+
+
+-- tmp.logs definition
+
+CREATE TABLE `logs` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `timestamp` timestamp NOT NULL,
+  `ip` varchar(45) NOT NULL,
+  `entity_type` varchar(50) DEFAULT NULL,
+  `entity_name` varchar(100) DEFAULT NULL,
+  `username` varchar(100) DEFAULT NULL,
+  `user_type` varchar(50) DEFAULT NULL,
+  `request_type` varchar(100) DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `details` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=56272 DEFAULT CHARSET=latin1;
+
+
+-- tmp.tmp_api_usage definition
+
+CREATE TABLE `tmp_api_usage` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_time` timestamp NULL DEFAULT NULL,
+  `tenant_id` char(36) DEFAULT NULL,
+  `entity_type` varchar(255) DEFAULT NULL,
+  `entity_id` char(36) DEFAULT NULL,
+  `transport` varchar(255) DEFAULT NULL,
+  `db_storage` varchar(255) DEFAULT NULL,
+  `re_exec` varchar(255) DEFAULT NULL,
+  `js_exec` varchar(255) DEFAULT NULL,
+  `email_exec` varchar(255) DEFAULT NULL,
+  `sms_exec` varchar(255) DEFAULT NULL,
+  `alarm_exec` varchar(255) DEFAULT NULL,
+  `status` text,
+  `message` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5532 DEFAULT CHARSET=latin1;
+
+
+-- tmp.tms_Day_Consumption definition
+
+CREATE TABLE `tms_Day_Consumption` (
+  `EntryID` int NOT NULL AUTO_INCREMENT,
+  `DeviceUID` varchar(255) DEFAULT NULL,
+  `totalVolume` float DEFAULT NULL,
+  `TimeStamp` timestamp NOT NULL,
+  PRIMARY KEY (`EntryID`,`TimeStamp`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+
+
+-- tmp.tms_devices definition
+
+CREATE TABLE `tms_devices` (
+  `EntryId` int NOT NULL AUTO_INCREMENT,
+  `DeviceUID` varchar(255) DEFAULT NULL,
+  `DeviceLocation` varchar(45) DEFAULT NULL,
+  `DeviceName` varchar(45) DEFAULT NULL,
+  `CompanyEmail` varchar(100) DEFAULT NULL,
+  `CompanyName` varchar(100) DEFAULT NULL,
+  `IssueDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(45) DEFAULT 'offline',
+  `DeviceType` varchar(255) DEFAULT NULL,
+  `SMS` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT 'admin',
+  `endDate` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`EntryId`),
+  UNIQUE KEY `unique_deviceuid` (`DeviceUID`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
+
+
+-- tmp.tms_reset_tokens definition
+
+CREATE TABLE `tms_reset_tokens` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `UserId` varchar(50) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+
+
+-- tmp.tms_trigger definition
+
+CREATE TABLE `tms_trigger` (
+  `DeviceUID` varchar(255) NOT NULL,
+  `TriggerValue` varchar(255) DEFAULT NULL,
+  `CompanyEmail` varchar(100) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `DeviceType` varchar(255) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `company_name` varchar(255) DEFAULT NULL,
+  `DeviceName` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`DeviceUID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- tmp.tms_trigger_logs definition
+
+CREATE TABLE `tms_trigger_logs` (
+  `LogID` int NOT NULL AUTO_INCREMENT,
+  `DeviceUID` varchar(255) DEFAULT NULL,
+  `TimeStamp` varchar(255) DEFAULT NULL,
+  `Status` varchar(255) DEFAULT NULL,
+  `Temperature` varchar(255) DEFAULT NULL,
+  `Humidity` varchar(255) DEFAULT NULL,
+  `TemperatureR` varchar(100) DEFAULT NULL,
+  `TemperatureY` varchar(100) DEFAULT NULL,
+  `TemperatureB` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`LogID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1277290 DEFAULT CHARSET=latin1;
+
+
+-- tmp.tms_users definition
+
+CREATE TABLE `tms_users` (
+  `UserId` varchar(50) NOT NULL,
+  `Username` varchar(255) DEFAULT NULL,
+  `FirstName` varchar(255) DEFAULT NULL,
+  `LastName` varchar(255) DEFAULT NULL,
+  `CompanyName` varchar(255) DEFAULT NULL,
+  `CompanyEmail` varchar(255) DEFAULT NULL,
+  `ContactNo` varchar(20) DEFAULT NULL,
+  `Location` varchar(255) DEFAULT NULL,
+  `UserType` enum('Super Admin','Admin','Standard') DEFAULT NULL,
+  `PersonalEmail` varchar(255) DEFAULT NULL,
+  `Password` varchar(255) DEFAULT NULL,
+  `Designation` varchar(255) DEFAULT NULL,
+  `VerificationToken` varchar(255) DEFAULT NULL,
+  `Verified` varchar(15) DEFAULT NULL,
+  `is_online` tinyint NOT NULL DEFAULT '0',
+  `block` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`UserId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- tmp.user_info definition
+
+CREATE TABLE `user_info` (
+  `all_users` int DEFAULT NULL,
+  `active_users` int DEFAULT NULL,
+  `inactive_users` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
