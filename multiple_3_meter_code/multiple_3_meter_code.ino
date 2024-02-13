@@ -19,7 +19,10 @@ int slaveIDs[] = {1, 2, 3};
 int maxMeter = 3;
 
 int tab[] = {3, 5};
-const char *registerNames[] = {"1", "2"};
+
+const char *registerNames[] = {"1", "2"}; //for device 1
+// const char *registerNames2[] = {"3", "4"}; //for device 2
+// const char *registerNames3[] = {"5", "6"}; //for device 3
 
 const int numRegisters = sizeof(tab) / sizeof(tab[0]);
 float values[numRegisters];
@@ -67,7 +70,7 @@ void loop()
     int currentSlaveID = slaveIDs[i];
     node.begin(currentSlaveID, modbus); // Set the current slave ID
     readAndSendData(currentSlaveID, DeviceUID);
-    delay(10000); // Delay between readings for each meter
+    delay(5000); // Delay between readings for each meter
   }
 
   delay(100); // Adjust delay based on your needs
@@ -76,8 +79,7 @@ void loop()
 void readAndSendData(int currentSlaveID, const String &DeviceUID)
 {
     String combinedID = DeviceUID + "-" + String(currentSlaveID);
-  Serial.print("deviceUID : ");
-  Serial.println(combinedID);
+ 
 
   for (int i = 0; i < numRegisters; ++i)
   {
@@ -95,6 +97,8 @@ void readAndSendData(int currentSlaveID, const String &DeviceUID)
       // Serial.print("Meter ");
       // Serial.print(currentSlaveID);
       // Serial.print(", ");
+       Serial.print("deviceUID : ");
+  Serial.println(combinedID);
       Serial.print(registerNames[i]);
       Serial.print(" : ");
       Serial.println(floatValue);
