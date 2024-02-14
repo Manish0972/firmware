@@ -1,0 +1,98 @@
+#include <Wire.h>
+#include <FS.h>
+#include <SoftwareSerial.h>
+#include <ModbusMaster.h>
+#include <WiFiManager.h>
+
+#define MAX485_DE 23
+#define MAX485_RE_NEG 22
+#define GREEN_LED_PIN 32
+#define RED_LED_PIN 12
+
+SoftwareSerial modbus(17, 16);  // RX, TX
+
+ModbusMaster node;
+String DeviceUID = "SL03202362";
+
+const char *registerNames[] = {"1", "2"}; //for device 1
+float values[sizeof(registerNames) / sizeof(registerNames[0])];
+
+int maxRetryCount = 5; // Maximum number of retries before restarting
+int retryCount = 0;
+
+union u_tag
+{
+  uint16_t bdata[2];
+  float floatValue;
+} unifloat;
+
+void preTransmission()
+{
+  digitalWrite(MAX485_RE_NEG, HIGH);
+  digitalWrite(MAX485_DE, HIGH);
+}
+
+void postTransmission()
+{
+  digitalWrite(MAX485_RE_NEG, LOW);
+  digitalWrite(MAX485_DE, LOW);
+}
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(GREEN_LED_PIN, OUTPUT);
+  pinMode(MAX485_RE_NEG, OUTPUT);
+  pinMode(MAX485_DE, OUTPUT);
+  digitalWrite(MAX485_RE_NEG, LOW);
+  digitalWrite(MAX485_DE, LOW);
+
+  modbus.begin(9600);
+  node.preTransmission(preTransmission);
+  node.postTransmission(postTransmission);
+}
+
+void loop()
+{
+  // Read and send data for each meter
+  readAndSendData(1, "SL03202362-1");
+  delay(5000); // Delay between readings for the first meter
+
+  readAndSendData(2, "SL03202362-2");
+  delay(5000); // Delay between readings for the second meter
+
+  readAndSendData(3, "SL03202362-3");
+  delay(5000); // Delay between readings for the third meter
+
+  delay(100); // Adjust delay based on your needs
+}
+
+void readAndSendData(int currentSlaveID, const String &combinedID)
+{
+  Serial.print("deviceUID : ");
+  Serial.println(combinedID);
+
+  for (int i = 0; i < sizeof(registerNames) / sizeof(registerNames[0]); ++i)
+  {
+    uint16_t result = node.readHoldingRegisters(currentSlaveID, i + 1, 1);
+
+    if (result == node.ku8MBSuccess)
+    {
+      values[i] = node.getResponseBuffer(0x00);
+    }
+    else
+    {
+      digitalWrite(GREEN_LED_PIN, HIGH);
+      return;  // Exit the function if one of the readings fails
+    }
+    delay(40);
+  }
+
+  // Print the values only after successfully reading all registers
+  for (int i = 0; i < sizeof(registerNames) / sizeof(registerNames[0]); ++i)
+  {
+    Serial.print(registerNames[i]);
+    Serial.print(" : ");
+    Serial.println(values[i]);
+  }
+}
